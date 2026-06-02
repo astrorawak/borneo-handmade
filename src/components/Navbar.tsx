@@ -50,7 +50,7 @@ export default function Navbar() {
             </button>
             <button className="nav-hamburger" onClick={() => setMenuOpen(!menuOpen)}
               style={{ background: 'none', border: 'none', color: '#fff', fontSize: '22px', cursor: 'pointer', padding: '4px' }}>
-              {menuOpen ? '\u2715' : '\u2630'}
+              {menuOpen ? '✕' : '☰'}
             </button>
           </div>
         </div>
