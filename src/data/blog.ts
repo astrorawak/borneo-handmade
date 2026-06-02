@@ -21,7 +21,7 @@ Before a Mandau is complete, it undergoes a ritual blessing ceremony. The crafts
 ## Collecting Authentic Mandau
 
 When collecting a Mandau, look for hand-forged blades with irregular patterns, natural aging, and original bone or horn handles. Machine-made replicas lack the soul and craftsmanship of authentic pieces.`,
-    image: '\ud83d\udee1\ufe0f',
+    image: '🛡️',
     author: 'Borneo Handmade Team',
     isPublished: true,
     publishedAt: '2024-01-15',
@@ -48,7 +48,7 @@ Each pattern in a Pua Kumbu has specific spiritual meaning. The most powerful pa
 ## Caring for Your Pua Kumbu
 
 Store your Pua Kumbu away from direct sunlight. Wash gently by hand using mild soap if needed.`,
-    image: '\ud83e\uddf5',
+    image: '🧵',
     author: 'Borneo Handmade Team',
     isPublished: true,
     publishedAt: '2024-02-10',
@@ -79,7 +79,7 @@ Begin with smaller, more affordable pieces to develop your eye.
 ## Ethical Collecting
 
 Be mindful of cultural sensitivity. Some items hold deep spiritual significance to indigenous communities.`,
-    image: '\ud83c\udffa',
+    image: '🏺',
     author: 'Borneo Handmade Team',
     isPublished: true,
     publishedAt: '2024-03-05',
