@@ -5,12 +5,12 @@ const ADMIN_PASS = 'borneo2024';
 type AdminSection = 'dashboard' | 'products' | 'orders' | 'blog' | 'categories' | 'settings';
 
 const navItems: { id: AdminSection; label: string; icon: string }[] = [
-  { id: 'dashboard', label: 'DASHBOARD', icon: '\ud83d\udcca' },
-  { id: 'products', label: 'PRODUCTS', icon: '\ud83d\udce6' },
-  { id: 'orders', label: 'ORDERS', icon: '\ud83d\uded2' },
-  { id: 'blog', label: 'BLOG', icon: '\ud83d\udcdd' },
-  { id: 'categories', label: 'CATEGORIES', icon: '\ud83d\uddc2\ufe0f' },
-  { id: 'settings', label: 'SETTINGS', icon: '\u2699\ufe0f' },
+  { id: 'dashboard', label: 'DASHBOARD', icon: '📊' },
+  { id: 'products', label: 'PRODUCTS', icon: '📦' },
+  { id: 'orders', label: 'ORDERS', icon: '🛒' },
+  { id: 'blog', label: 'BLOG', icon: '📝' },
+  { id: 'categories', label: 'CATEGORIES', icon: '🗂️' },
+  { id: 'settings', label: 'SETTINGS', icon: '⚙️' },
 ];
 
 export default function AdminPage() {
@@ -77,10 +77,10 @@ export default function AdminPage() {
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
         <div style={{ background: 'var(--bg2)', borderBottom: '1px solid var(--border)', padding: '0 16px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 50 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="nav-hamburger" style={{ background: 'none', border: 'none', color: '#fff', fontSize: '22px', cursor: 'pointer', padding: '4px' }}>\u2630</button>
+            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="nav-hamburger" style={{ background: 'none', border: 'none', color: '#fff', fontSize: '22px', cursor: 'pointer', padding: '4px' }}>☰</button>
             <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '18px', letterSpacing: '2px', color: 'var(--primary)' }}>{navItems.find((n) => n.id === section)?.label}</div>
           </div>
-          <a href="/" target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', color: 'var(--muted)', textDecoration: 'none', letterSpacing: '1px', border: '1px solid var(--border2)', padding: '6px 14px', whiteSpace: 'nowrap' }}>VIEW SITE \u2197</a>
+          <a href="/borneo-handmade/" target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', color: 'var(--muted)', textDecoration: 'none', letterSpacing: '1px', border: '1px solid var(--border2)', padding: '6px 14px', whiteSpace: 'nowrap' }}>VIEW SITE ↗</a>
         </div>
         <div style={{ flex: 1, padding: '24px 16px', overflowX: 'hidden' }}>{renderSection()}</div>
       </div>
