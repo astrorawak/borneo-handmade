@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useAdminStore } from '../store/adminStore';
 
 export function BlogPage() {
@@ -33,7 +33,7 @@ export function BlogPage() {
                     <h3 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '22px', color: '#fff', letterSpacing: '1px', marginBottom: '10px', lineHeight: '1.2' }}>{post.title}</h3>
                   </Link>
                   <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px', color: 'var(--muted)', lineHeight: '1.6', marginBottom: '16px' }}>{post.excerpt.slice(0, 120)}...</p>
-                  <Link to={`/blog/${post.slug}`} style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', letterSpacing: '2px', color: 'var(--primary)', textDecoration: 'none', textTransform: 'uppercase' }}>READ MORE \u2192</Link>
+                  <Link to={`/blog/${post.slug}`} style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', letterSpacing: '2px', color: 'var(--primary)', textDecoration: 'none', textTransform: 'uppercase' }}>READ MORE →</Link>
                 </div>
               </div>
             ))}
@@ -45,8 +45,8 @@ export function BlogPage() {
 }
 
 export function BlogPostPage() {
+  const { slug } = useParams<{ slug: string }>();
   const { blogPosts } = useAdminStore();
-  const slug = window.location.pathname.split('/').pop();
   const post = blogPosts.find((b) => b.slug === slug && b.isPublished);
 
   if (!post) {
@@ -81,14 +81,14 @@ export function BlogPostPage() {
     <div>
       <div style={{ background: 'var(--bg2)', borderBottom: '1px solid var(--border)', padding: '40px 0' }}>
         <div className="page-container">
-          <Link to="/blog" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', letterSpacing: '2px', color: 'var(--primary)', textDecoration: 'none', display: 'inline-block', marginBottom: '16px' }}>\u2190 BLOG</Link>
+          <Link to="/blog" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', letterSpacing: '2px', color: 'var(--primary)', textDecoration: 'none', display: 'inline-block', marginBottom: '16px' }}>← BLOG</Link>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '12px' }}>
             {post.tags.slice(0, 3).map((tag) => (
               <span key={tag} style={{ background: 'var(--bg3)', border: '1px solid var(--border2)', fontFamily: 'Space Grotesk, sans-serif', fontSize: '9px', letterSpacing: '1px', color: 'var(--muted)', padding: '3px 8px', textTransform: 'uppercase' }}>{tag}</span>
             ))}
           </div>
           <h1 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: 'clamp(32px, 5vw, 60px)', letterSpacing: '2px', lineHeight: '1.1', maxWidth: '800px', marginBottom: '16px' }}>{post.title}</h1>
-          <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '12px', color: 'var(--muted)' }}>{post.author} \u00b7 {post.publishedAt}</div>
+          <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '12px', color: 'var(--muted)' }}>{post.author} · {post.publishedAt}</div>
         </div>
       </div>
       <div style={{ background: 'var(--bg3)', borderBottom: '1px solid var(--border)', padding: '12px 0' }}>
