@@ -454,66 +454,6 @@ export function AdminSettings() {
   const { settings, updateSettings } = useAdminStore();
   const { toasts, show: toast, remove } = useToast();
   const [form, setForm] = useState<StoreSettings>({ ...settings });
-  const handleSave = () => { updateSettings(form); toast('Settings saved!', 'success'); };
-  const field = (labelText: string, key: keyof StoreSettings, placeholder = '') => (
-    <div>
-      <label style={lbl}>{labelText}</label>
-      <input style={inp} value={String(form[key])} onChange={(e) => setForm({ ...form, [key]: e.target.value })} placeholder={placeholder} />
-    </div>
-  );
-  return (
-    <div>
-      <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '32px', letterSpacing: '2px', color: 'var(--primary)', marginBottom: '24px' }}>SETTINGS</h2>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
-        <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px' }}>
-          <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '18px', letterSpacing: '2px', color: 'var(--primary)', marginBottom: '16px' }}>STORE INFO</div>
-          {field('Store Name', 'storeName')}
-          {field('Store Email', 'storeEmail')}
-          {field('WhatsApp Number', 'whatsapp', 'e.g. 082358402290')}
-        </div>
-        <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px' }}>
-          <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '18px', letterSpacing: '2px', color: 'var(--primary)', marginBottom: '16px' }}>PAYMENT METHODS</div>
-          {field('Bank Name', 'bankName', 'e.g. BRI')}
-          {field('Bank Account Number', 'bankAccountNumber')}
-          {field('Bank Account Name', 'bankAccountName')}
-          {field('PayPal Email', 'paypalEmail')}
-          {field('USDT Address', 'usdtAddress')}
-          {field('USDT Network', 'usdtNetwork', 'e.g. TRC20, ERC20')}
-          {field('Western Union Name', 'westernUnionName')}
-          {field('Western Union Country', 'westernUnionCountry')}
-        </div>
-        <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px' }}>
-          <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '18px', letterSpacing: '2px', color: 'var(--primary)', marginBottom: '16px' }}>SOCIAL MEDIA</div>
-          {field('Instagram Username', 'instagram', 'e.g. borneohandmade')}
-          {field('TikTok Username', 'tiktok')}
-          {field('Facebook Page', 'facebook')}
-          {field('YouTube Channel', 'youtube')}
-        </div>
-        <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px' }}>
-          <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '18px', letterSpacing: '2px', color: 'var(--primary)', marginBottom: '16px' }}>ANNOUNCEMENT BAR</div>
-          {field('Announcement Text', 'announcementText')}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
-            <input type="checkbox" id="annActive" checked={form.announcementActive} onChange={(e) => setForm({ ...form, announcementActive: e.target.checked })} />
-            <label htmlFor="annActive" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px', color: 'var(--text2)', cursor: 'pointer' }}>Show announcement bar</label>
-          </div>
-        </div>
-        <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px' }}>
-          <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '18px', letterSpacing: '2px', color: 'var(--primary)', marginBottom: '16px' }}>SHIPPING NOTE</div>
-          <label style={lbl}>Shipping Information Text</label>
-          <textarea style={{ ...inp, minHeight: '80px', resize: 'vertical' }} value={form.shippingNote} onChange={(e) => setForm({ ...form, shippingNote: e.target.value })} />
-        </div>
-      </div>
-      <button onClick={handleSave} style={{ marginTop: '24px', background: 'var(--primary)', color: '#fff', border: 'none', padding: '14px 40px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px', letterSpacing: '2px', textTransform: 'uppercase', cursor: 'pointer' }}>
-        SAVE ALL SETTINGS
-      </button>
-      <Toast toasts={toasts} onRemove={remove} />
-    </div>
-  );
-}// ===== SETTINGS =====
-export function AdminSettings() {
-  const { settings, updateSettings } = useAdminStore();
-  const { toasts, show: toast, remove } = useToast();
-  const [form, setForm] = useState<StoreSettings>({ ...settings });
   const [shippingModal, setShippingModal] = useState(false);
   const [editingShipping, setEditingShipping] = useState<ShippingOption | null>(null);
   const emptyShipping: ShippingOption = { id: '', label: '', estimatedDays: '', costIDR: 0, costUSD: 0, isActive: true };
