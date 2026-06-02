@@ -19,4 +19,14 @@ export const defaultSettings: StoreSettings = {
   shippingNote: 'International shipping available. Estimated 7-21 business days. Insurance included for items above Rp 1.000.000.',
   announcementText: 'Free shipping for domestic orders above Rp 500.000',
   announcementActive: true,
+  shippingOptions: [
+    { id: 'jne-reg', label: 'JNE Regular', estimatedDays: '3-5 hari', costIDR: 35000, costUSD: 3, isActive: true },
+    { id: 'jne-yes', label: 'JNE YES', estimatedDays: '1-2 hari', costIDR: 65000, costUSD: 5, isActive: true },
+    { id: 'jt-reg', label: 'J&T Regular', estimatedDays: '2-4 hari', costIDR: 32000, costUSD: 3, isActive: true },
+    { id: 'sicepat', label: 'SiCepat', estimatedDays: '2-3 hari', costIDR: 28000, costUSD: 3, isActive: true },
+    { id: 'dhl-intl', label: 'DHL International', estimatedDays: '3-5 days', costIDR: 450000, costUSD: 30, isActive: true },
+    { id: 'fedex-intl', label: 'FedEx International', estimatedDays: '3-5 days', costIDR: 480000, costUSD: 32, isActive: false },
+    { id: 'ems', label: 'EMS International', estimatedDays: '7-14 days', costIDR: 250000, costUSD: 18, isActive: true },
+    { id: 'std-intl', label: 'Standard International', estimatedDays: '14-21 days', costIDR: 150000, costUSD: 10, isActive: true },
+  ],
 };
