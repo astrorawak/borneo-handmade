@@ -69,6 +69,15 @@ export interface Order {
   updatedAt: string;
 }
 
+export interface ShippingOption {
+  id: string;
+  label: string;
+  estimatedDays: string;
+  costIDR: number;
+  costUSD: number;
+  isActive: boolean;
+}
+
 export interface StoreSettings {
   storeName: string;
   storeEmail: string;
@@ -88,6 +97,7 @@ export interface StoreSettings {
   shippingNote: string;
   announcementText: string;
   announcementActive: boolean;
+  shippingOptions: ShippingOption[];
 }
 
 export type Language = 'en' | 'id';
