@@ -18,7 +18,7 @@ export default function ProductDetailPage() {
   if (!product) {
     return (
       <div style={{ textAlign: 'center', padding: '100px 0', color: 'var(--muted)' }}>
-        <div style={{ fontSize: '48px', marginBottom: '16px' }}>\u274c</div>
+        <div style={{ fontSize: '48px', marginBottom: '16px' }}>❌</div>
         <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '32px', letterSpacing: '2px', marginBottom: '16px' }}>PRODUCT NOT FOUND</h2>
         <Link to="/shop" style={{ color: 'var(--primary)', textDecoration: 'none', fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px', letterSpacing: '2px', border: '1px solid var(--primary)', padding: '10px 24px', display: 'inline-block' }}>BACK TO SHOP</Link>
       </div>
@@ -50,17 +50,17 @@ export default function ProductDetailPage() {
           <div>
             <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '10px', letterSpacing: '4px', color: 'var(--primary)', textTransform: 'uppercase', marginBottom: '8px' }}>{product.category}</div>
             <h1 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: 'clamp(32px, 5vw, 52px)', letterSpacing: '2px', marginBottom: '8px', lineHeight: 1.1 }}>{product.name}</h1>
-            <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px', color: 'var(--muted)', marginBottom: '20px' }}>\ud83d\udccd {product.origin}</div>
+            <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px', color: 'var(--muted)', marginBottom: '20px' }}>📍 {product.origin}</div>
             {product.material && <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '12px', color: 'var(--muted)', marginBottom: '20px' }}><span style={{ color: 'var(--text2)' }}>Material:</span> {product.material}</div>}
             <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '28px', fontWeight: 700, color: 'var(--primary)', marginBottom: '8px' }}>
               {currency === 'IDR' ? formatRupiah(product.price) : formatUSD(product.priceUSD)}
             </div>
             <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px', color: 'var(--muted)', marginBottom: '24px' }}>
-              \u2248 {currency === 'IDR' ? formatUSD(product.priceUSD) : formatRupiah(product.price)}
+              ≈ {currency === 'IDR' ? formatUSD(product.priceUSD) : formatRupiah(product.price)}
             </div>
             <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '12px', marginBottom: '24px' }}>
               <span style={{ color: product.stock > 0 ? '#4ade80' : 'var(--primary)' }}>
-                {product.stock > 0 ? `\u25cf IN STOCK (${product.stock} available)` : '\u25cf OUT OF STOCK'}
+                {product.stock > 0 ? `● IN STOCK (${product.stock} available)` : '● OUT OF STOCK'}
               </span>
             </div>
             {product.stock > 0 && (
@@ -68,9 +68,9 @@ export default function ProductDetailPage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
                   <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '12px', color: 'var(--muted)', letterSpacing: '1px' }}>QTY:</div>
                   <div style={{ display: 'flex', alignItems: 'center', border: '1px solid var(--border2)' }}>
-                    <button onClick={() => setQty(Math.max(1, qty - 1))} style={{ background: 'none', border: 'none', color: '#fff', width: '36px', height: '36px', cursor: 'pointer', fontSize: '18px' }}>\u2212</button>
+                    <button onClick={() => setQty(Math.max(1, qty - 1))} style={{ background: 'none', border: 'none', color: '#fff', width: '36px', height: '36px', cursor: 'pointer', fontSize: '20px', lineHeight: 1 }}>−</button>
                     <span style={{ padding: '0 16px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '15px', minWidth: '40px', textAlign: 'center' }}>{qty}</span>
-                    <button onClick={() => setQty(Math.min(product.stock, qty + 1))} style={{ background: 'none', border: 'none', color: '#fff', width: '36px', height: '36px', cursor: 'pointer', fontSize: '18px' }}>+</button>
+                    <button onClick={() => setQty(Math.min(product.stock, qty + 1))} style={{ background: 'none', border: 'none', color: '#fff', width: '36px', height: '36px', cursor: 'pointer', fontSize: '20px', lineHeight: 1 }}>+</button>
                   </div>
                 </div>
                 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '24px' }}>
@@ -78,14 +78,14 @@ export default function ProductDetailPage() {
                     {language === 'en' ? 'BUY NOW' : 'BELI SEKARANG'}
                   </button>
                   <button onClick={handleAdd} style={{ background: added ? 'var(--bg4)' : 'transparent', color: added ? '#4ade80' : '#fff', border: '1px solid ' + (added ? '#4ade80' : 'var(--border2)'), padding: '13px 28px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '12px', letterSpacing: '2px', textTransform: 'uppercase', cursor: 'pointer', flex: 1, minWidth: '140px', whiteSpace: 'nowrap' }}>
-                    {added ? '\u2713 ADDED' : (language === 'en' ? 'ADD TO CART' : 'TAMBAH KE KERANJANG')}
+                    {added ? '✓ ADDED' : (language === 'en' ? 'ADD TO CART' : 'TAMBAH KE KERANJANG')}
                   </button>
                 </div>
               </>
             )}
             <a href={`https://wa.me/082358402290?text=Hi, I am interested in: ${product.name}`} target="_blank" rel="noopener noreferrer"
               style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--bg3)', border: '1px solid var(--border2)', padding: '12px 20px', textDecoration: 'none', color: 'var(--muted)', fontFamily: 'Space Grotesk, sans-serif', fontSize: '12px', letterSpacing: '1px', marginBottom: '24px' }}>
-              \ud83d\udcac {language === 'en' ? 'Ask on WhatsApp' : 'Tanya via WhatsApp'}
+              💬 {language === 'en' ? 'Ask on WhatsApp' : 'Tanya via WhatsApp'}
             </a>
             <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '14px', lineHeight: '1.8', color: 'var(--text2)' }}>{product.description}</div>
           </div>
