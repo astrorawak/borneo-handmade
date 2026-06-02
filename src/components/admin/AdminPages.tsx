@@ -12,9 +12,9 @@ function Toast({ toasts, onRemove }: { toasts: ToastItem[]; onRemove: (id: numbe
     <div style={{ position: 'fixed', bottom: '20px', right: '16px', zIndex: 1000, display: 'flex', flexDirection: 'column', gap: '8px', pointerEvents: 'none', maxWidth: '320px' }}>
       {toasts.map((t) => (
         <div key={t.id} className="animate-toast" style={{ pointerEvents: 'auto', display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 16px', borderRadius: '4px', background: t.type === 'success' ? '#16a34a' : t.type === 'error' ? '#dc2626' : '#374151', color: '#fff', fontSize: '13px', fontWeight: 600, fontFamily: 'Space Grotesk, sans-serif' }}>
-          <span>{t.type === 'success' ? '\u2705' : t.type === 'error' ? '\u274c' : '\u2139\ufe0f'}</span>
+          <span>{t.type === 'success' ? '✅' : t.type === 'error' ? '❌' : 'ℹ️'}</span>
           <span style={{ flex: 1 }}>{t.message}</span>
-          <button onClick={() => onRemove(t.id)} style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', fontSize: '18px' }}>\u00d7</button>
+          <button onClick={() => onRemove(t.id)} style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer', fontSize: '18px' }}>×</button>
         </div>
       ))}
     </div>
@@ -64,7 +64,7 @@ function ImageUploader({ value, onChange, onToast, label = 'Image' }: { value: s
           <div style={{ padding: '32px', textAlign: 'center' }}>
             {uploading
               ? <p style={{ fontSize: '12px', color: 'var(--primary)', fontFamily: 'Space Grotesk, sans-serif' }}>Processing...</p>
-              : <><div style={{ fontSize: '28px', marginBottom: '8px' }}>\ud83d\udcf7</div><p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'Space Grotesk, sans-serif' }}>Tap to upload - JPG, PNG, WebP - Max 3MB</p></>
+              : <><div style={{ fontSize: '28px', marginBottom: '8px' }}>📷</div><p style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'Space Grotesk, sans-serif' }}>Tap to upload - JPG, PNG, WebP - Max 3MB</p></>
             }
           </div>
         )}
@@ -82,7 +82,7 @@ function Modal({ onClose, title, children }: { onClose: () => void; title: strin
       <div style={{ background: 'var(--bg2)', border: '1px solid var(--border)', width: '100%', maxWidth: '600px', marginTop: '8px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 20px', borderBottom: '1px solid var(--border)', position: 'sticky', top: 0, background: 'var(--bg2)', zIndex: 1 }}>
           <h3 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '20px', letterSpacing: '2px', color: 'var(--primary)', margin: 0 }}>{title}</h3>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--muted)', cursor: 'pointer', fontSize: '24px' }}>\u00d7</button>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--muted)', cursor: 'pointer', fontSize: '24px' }}>×</button>
         </div>
         <div style={{ padding: '20px' }}>{children}</div>
       </div>
@@ -102,10 +102,10 @@ export function AdminDashboard() {
       <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '32px', letterSpacing: '2px', color: 'var(--primary)', marginBottom: '24px' }}>DASHBOARD</h2>
       <div className="stats-grid" style={{ marginBottom: '32px' }}>
         {[
-          { label: 'PRODUCTS', value: products.length, icon: '\ud83d\udce6', sub: products.filter((p) => p.isActive).length + ' active' },
-          { label: 'CATEGORIES', value: categories.length, icon: '\ud83d\uddc2\ufe0f', sub: '' },
-          { label: 'BLOG POSTS', value: blogPosts.filter((b) => b.isPublished).length, icon: '\ud83d\udcdd', sub: 'published' },
-          { label: 'ORDERS', value: orders.length, icon: '\ud83d\uded2', sub: pendingOrders.length + ' pending' },
+          { label: 'PRODUCTS', value: products.length, icon: '📦', sub: products.filter((p) => p.isActive).length + ' active' },
+          { label: 'CATEGORIES', value: categories.length, icon: '🗂️', sub: '' },
+          { label: 'BLOG POSTS', value: blogPosts.filter((b) => b.isPublished).length, icon: '📝', sub: 'published' },
+          { label: 'ORDERS', value: orders.length, icon: '🛒', sub: pendingOrders.length + ' pending' },
         ].map((s) => (
           <div key={s.label} style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px 16px' }}>
             <div style={{ fontSize: '28px', marginBottom: '8px' }}>{s.icon}</div>
@@ -269,7 +269,7 @@ export function AdminOrders() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '15px', fontWeight: 700, color: 'var(--primary)' }}>{order.currency === 'IDR' ? formatRupiah(order.totalAmount) : formatUSD(order.totalAmount)}</span>
                   <span style={{ background: 'transparent', border: '1px solid ' + statusColors[order.status], color: statusColors[order.status], padding: '3px 10px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '10px', letterSpacing: '1px', textTransform: 'uppercase' }}>{order.status}</span>
-                  <span style={{ color: 'var(--muted)', fontSize: '16px' }}>{expanded === order.id ? '\u25b2' : '\u25bc'}</span>
+                  <span style={{ color: 'var(--muted)', fontSize: '16px' }}>{expanded === order.id ? '▲' : '▼'}</span>
                 </div>
               </div>
               {expanded === order.id && (
@@ -395,9 +395,9 @@ export function AdminCategories() {
   const { toasts, show: toast, remove } = useToast();
   const [modal, setModal] = useState(false);
   const [editing, setEditing] = useState<Category | null>(null);
-  const emptyForm = { name: '', slug: '', description: '', icon: '\ud83d\udce6' };
+  const emptyForm = { name: '', slug: '', description: '', icon: '📦' };
   const [form, setForm] = useState(emptyForm);
-  const EMOJIS = ['\ud83d\udce6', '\ud83d\udee1\ufe0f', '\ud83c\udfad', '\ud83e\uddf5', '\ud83e\udeb5', '\ud83c\udffa', '\ud83d\udc8e', '\ud83c\udf3f', '\ud83d\udd2e', '\ud83e\udeac', '\ud83c\udff9', '\ud83c\udfa8', '\ud83e\uddff', '\u2694\ufe0f', '\ud83e\ude86'];
+  const EMOJIS = ['📦', '🛡️', '🎭', '🧵', '🪵', '🏺', '💎', '🌿', '🔮', '🪬', '🏹', '🎨', '🧿', '⚔️', '🪆'];
   const openEdit = (c: Category) => { setEditing(c); setForm({ name: c.name, slug: c.slug, description: c.description, icon: c.icon }); setModal(true); };
   const handleSave = () => {
     if (!form.name) { toast('Name required', 'error'); return; }
