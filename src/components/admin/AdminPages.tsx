@@ -2,7 +2,7 @@ import { useState, useCallback, useRef } from 'react';
 import { useAdminStore } from '../../store/adminStore';
 import { slugify } from '../../lib/utils';
 import { formatRupiah, formatUSD } from '../../lib/utils';
-import type { Product, Category, BlogPost, Order, StoreSettings } from '../../types';
+import type { Product, Category, BlogPost, Order, StoreSettings, ShippingOption } from '../../types';
 
 type ToastType = 'success' | 'error' | 'info';
 interface ToastItem { id: number; type: ToastType; message: string; }
@@ -196,11 +196,11 @@ export function AdminProducts() {
           <label style={lbl}>Short Description</label><input style={inp} value={form.shortDesc} onChange={(e) => setForm({ ...form, shortDesc: e.target.value })} />
           <label style={lbl}>Full Description</label><textarea style={{ ...inp, minHeight: '100px', resize: 'vertical' }} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-            <div><label style={lbl}>Price IDR (Rp) *</label><input style={inp} type="number" value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} /></div>
-            <div><label style={lbl}>Price USD ($) *</label><input style={inp} type="number" value={form.priceUSD} onChange={(e) => setForm({ ...form, priceUSD: Number(e.target.value) })} /></div>
+            <div><label style={lbl}>Price IDR (Rp) *</label><input style={inp} type="text" inputMode="numeric" value={form.price === 0 ? '' : String(form.price)} onChange={(e) => { const v = e.target.value.replace(/\D/g, ''); setForm({ ...form, price: v ? parseInt(v) : 0 }); }} placeholder="e.g. 4800000" /></div>
+            <div><label style={lbl}>Price USD ($) *</label><input style={inp} type="text" inputMode="decimal" value={form.priceUSD === 0 ? '' : String(form.priceUSD)} onChange={(e) => { const v = e.target.value.replace(/[^\d.]/g, ''); setForm({ ...form, priceUSD: v ? parseFloat(v) : 0 }); }} placeholder="e.g. 295" /></div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-            <div><label style={lbl}>Stock</label><input style={inp} type="number" value={form.stock} onChange={(e) => setForm({ ...form, stock: Number(e.target.value) })} /></div>
+            <div><label style={lbl}>Stock</label><input style={inp} type="text" inputMode="numeric" value={form.stock === 0 ? '' : String(form.stock)} onChange={(e) => { const v = e.target.value.replace(/\D/g, ''); setForm({ ...form, stock: v ? parseInt(v) : 0 }); }} placeholder="e.g. 5" /></div>
             <div><label style={lbl}>Badge (optional)</label><input style={inp} value={form.badge} onChange={(e) => setForm({ ...form, badge: e.target.value })} placeholder="Rare, New, etc" /></div>
           </div>
           <label style={lbl}>Category</label>
@@ -506,6 +506,165 @@ export function AdminSettings() {
       <button onClick={handleSave} style={{ marginTop: '24px', background: 'var(--primary)', color: '#fff', border: 'none', padding: '14px 40px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px', letterSpacing: '2px', textTransform: 'uppercase', cursor: 'pointer' }}>
         SAVE ALL SETTINGS
       </button>
+      <Toast toasts={toasts} onRemove={remove} />
+    </div>
+  );
+}// ===== SETTINGS =====
+export function AdminSettings() {
+  const { settings, updateSettings } = useAdminStore();
+  const { toasts, show: toast, remove } = useToast();
+  const [form, setForm] = useState<StoreSettings>({ ...settings });
+  const [shippingModal, setShippingModal] = useState(false);
+  const [editingShipping, setEditingShipping] = useState<ShippingOption | null>(null);
+  const emptyShipping: ShippingOption = { id: '', label: '', estimatedDays: '', costIDR: 0, costUSD: 0, isActive: true };
+  const [shippingForm, setShippingForm] = useState<ShippingOption>(emptyShipping);
+
+  const handleSave = () => { updateSettings(form); toast('Settings saved!', 'success'); };
+
+  const openAddShipping = () => { setEditingShipping(null); setShippingForm(emptyShipping); setShippingModal(true); };
+  const openEditShipping = (s: ShippingOption) => { setEditingShipping(s); setShippingForm({ ...s }); setShippingModal(true); };
+
+  const handleSaveShipping = () => {
+    if (!shippingForm.label.trim()) { toast('Label required', 'error'); return; }
+    if (!shippingForm.estimatedDays.trim()) { toast('Estimated days required', 'error'); return; }
+    const id = shippingForm.id || slugify(shippingForm.label);
+    const opts = form.shippingOptions || [];
+    if (editingShipping) {
+      setForm({ ...form, shippingOptions: opts.map((s) => s.id === editingShipping.id ? { ...shippingForm, id } : s) });
+    } else {
+      setForm({ ...form, shippingOptions: [...opts, { ...shippingForm, id }] });
+    }
+    setShippingModal(false);
+    toast('Saved! Click SAVE ALL SETTINGS to apply.', 'info');
+  };
+
+  const deleteShipping = (id: string) => {
+    setForm({ ...form, shippingOptions: (form.shippingOptions || []).filter((s) => s.id !== id) });
+  };
+
+  const toggleShipping = (id: string) => {
+    setForm({ ...form, shippingOptions: (form.shippingOptions || []).map((s) => s.id === id ? { ...s, isActive: !s.isActive } : s) });
+  };
+
+  const field = (labelText: string, key: keyof StoreSettings, placeholder = '') => (
+    <div>
+      <label style={lbl}>{labelText}</label>
+      <input style={inp} value={String(form[key])} onChange={(e) => setForm({ ...form, [key]: e.target.value })} placeholder={placeholder} />
+    </div>
+  );
+
+  return (
+    <div>
+      <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '32px', letterSpacing: '2px', color: 'var(--primary)', marginBottom: '24px' }}>SETTINGS</h2>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+        <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px' }}>
+          <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '18px', letterSpacing: '2px', color: 'var(--primary)', marginBottom: '16px' }}>STORE INFO</div>
+          {field('Store Name', 'storeName')}
+          {field('Store Email', 'storeEmail')}
+          {field('WhatsApp Number', 'whatsapp', 'e.g. 082358402290')}
+        </div>
+
+        <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
+            <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '18px', letterSpacing: '2px', color: 'var(--primary)' }}>SHIPPING METHODS</div>
+            <button onClick={openAddShipping} style={{ background: 'var(--primary)', color: '#fff', border: 'none', padding: '8px 16px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', letterSpacing: '1px', cursor: 'pointer', textTransform: 'uppercase' }}>+ ADD METHOD</button>
+          </div>
+          <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '12px', color: 'var(--muted)', marginBottom: '16px', lineHeight: '1.5' }}>
+            Manage shipping carriers shown at checkout. Enable/disable, edit prices, or add new carriers like DHL, FedEx, EMS.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {(form.shippingOptions || []).map((s) => (
+              <div key={s.id} style={{ background: 'var(--bg4)', border: '1px solid var(--border)', borderRadius: '4px', padding: '10px 12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px', fontWeight: 600, color: s.isActive ? '#fff' : 'var(--muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.label}</div>
+                    <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', color: 'var(--muted)', marginTop: '2px' }}>
+                      Est. {s.estimatedDays} | Rp {s.costIDR.toLocaleString('id-ID')} / ${s.costUSD}
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flexShrink: 0, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+                    <button onClick={() => toggleShipping(s.id)} style={{ background: s.isActive ? 'rgba(74,222,128,0.15)' : 'var(--bg3)', border: '1px solid ' + (s.isActive ? '#4ade80' : 'var(--border2)'), color: s.isActive ? '#4ade80' : 'var(--muted)', padding: '4px 8px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '10px', cursor: 'pointer', letterSpacing: '1px', whiteSpace: 'nowrap' }}>
+                      {s.isActive ? 'ON' : 'OFF'}
+                    </button>
+                    <button onClick={() => openEditShipping(s)} style={{ background: 'var(--bg3)', border: '1px solid var(--border2)', color: 'var(--text2)', padding: '4px 8px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '10px', cursor: 'pointer' }}>EDIT</button>
+                    <button onClick={() => deleteShipping(s.id)} style={{ background: 'rgba(220,38,38,0.1)', border: '1px solid rgba(220,38,38,0.3)', color: '#f87171', padding: '4px 8px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '10px', cursor: 'pointer' }}>DEL</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px' }}>
+          <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '18px', letterSpacing: '2px', color: 'var(--primary)', marginBottom: '16px' }}>PAYMENT METHODS</div>
+          {field('Bank Name', 'bankName', 'e.g. BRI')}
+          {field('Bank Account Number', 'bankAccountNumber')}
+          {field('Bank Account Name', 'bankAccountName')}
+          {field('PayPal Email', 'paypalEmail')}
+          {field('USDT Address', 'usdtAddress')}
+          {field('USDT Network', 'usdtNetwork', 'e.g. TRC20, ERC20')}
+          {field('Western Union Name', 'westernUnionName')}
+          {field('Western Union Country', 'westernUnionCountry')}
+        </div>
+
+        <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px' }}>
+          <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '18px', letterSpacing: '2px', color: 'var(--primary)', marginBottom: '16px' }}>SOCIAL MEDIA</div>
+          {field('Instagram Username', 'instagram', 'e.g. borneohandmade')}
+          {field('TikTok Username', 'tiktok')}
+          {field('Facebook Page', 'facebook')}
+          {field('YouTube Channel', 'youtube')}
+        </div>
+
+        <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px' }}>
+          <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '18px', letterSpacing: '2px', color: 'var(--primary)', marginBottom: '16px' }}>ANNOUNCEMENT BAR</div>
+          {field('Announcement Text', 'announcementText')}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
+            <input type="checkbox" id="annActive" checked={form.announcementActive} onChange={(e) => setForm({ ...form, announcementActive: e.target.checked })} />
+            <label htmlFor="annActive" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px', color: 'var(--text2)', cursor: 'pointer' }}>Show announcement bar</label>
+          </div>
+        </div>
+
+        <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px' }}>
+          <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '18px', letterSpacing: '2px', color: 'var(--primary)', marginBottom: '16px' }}>SHIPPING NOTE</div>
+          <label style={lbl}>Info text (shown on Shipping page)</label>
+          <textarea style={{ ...inp, minHeight: '80px', resize: 'vertical' }} value={form.shippingNote} onChange={(e) => setForm({ ...form, shippingNote: e.target.value })} />
+        </div>
+      </div>
+
+      <button onClick={handleSave} style={{ marginTop: '24px', background: 'var(--primary)', color: '#fff', border: 'none', padding: '16px 40px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '14px', letterSpacing: '2px', textTransform: 'uppercase', cursor: 'pointer', fontWeight: 700, width: '100%' }}>
+        💾 SAVE ALL SETTINGS
+      </button>
+
+      {shippingModal && (
+        <Modal onClose={() => setShippingModal(false)} title={editingShipping ? 'EDIT SHIPPING' : 'ADD SHIPPING METHOD'}>
+          <label style={lbl}>Carrier / Label *</label>
+          <input style={inp} value={shippingForm.label} onChange={(e) => setShippingForm({ ...shippingForm, label: e.target.value })} placeholder="e.g. DHL Express, JNE Regular, FedEx" />
+          <label style={lbl}>Estimated Delivery Time *</label>
+          <input style={inp} value={shippingForm.estimatedDays} onChange={(e) => setShippingForm({ ...shippingForm, estimatedDays: e.target.value })} placeholder="e.g. 3-5 days, 2-4 hari" />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+            <div>
+              <label style={lbl}>Cost IDR (Rp)</label>
+              <input style={inp} type="text" inputMode="numeric" value={shippingForm.costIDR === 0 ? '' : String(shippingForm.costIDR)}
+                onChange={(e) => { const v = e.target.value.replace(/\D/g, ''); setShippingForm({ ...shippingForm, costIDR: v ? parseInt(v) : 0 }); }}
+                placeholder="e.g. 35000" />
+            </div>
+            <div>
+              <label style={lbl}>Cost USD ($)</label>
+              <input style={inp} type="text" inputMode="decimal" value={shippingForm.costUSD === 0 ? '' : String(shippingForm.costUSD)}
+                onChange={(e) => { const v = e.target.value.replace(/[^\d.]/g, ''); setShippingForm({ ...shippingForm, costUSD: v ? parseFloat(v) : 0 }); }}
+                placeholder="e.g. 25" />
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+            <input type="checkbox" id="shpActive" checked={shippingForm.isActive} onChange={(e) => setShippingForm({ ...shippingForm, isActive: e.target.checked })} />
+            <label htmlFor="shpActive" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px', color: 'var(--text2)', cursor: 'pointer' }}>Active at checkout</label>
+          </div>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <button onClick={handleSaveShipping} style={{ flex: 1, background: 'var(--primary)', color: '#fff', border: 'none', padding: '12px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '12px', letterSpacing: '2px', cursor: 'pointer' }}>SAVE</button>
+            <button onClick={() => setShippingModal(false)} style={{ flex: 1, background: 'var(--bg4)', color: 'var(--muted)', border: '1px solid var(--border2)', padding: '12px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '12px', letterSpacing: '2px', cursor: 'pointer' }}>CANCEL</button>
+          </div>
+        </Modal>
+      )}
       <Toast toasts={toasts} onRemove={remove} />
     </div>
   );
