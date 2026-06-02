@@ -9,7 +9,7 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <div style={{ textAlign: 'center', padding: '100px 0', color: 'var(--muted)' }}>
-        <div style={{ fontSize: '64px', marginBottom: '20px' }}>\ud83d\uded2</div>
+        <div style={{ fontSize: '64px', marginBottom: '20px' }}>🛒</div>
         <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '36px', letterSpacing: '2px', marginBottom: '12px' }}>
           {language === 'en' ? 'YOUR CART IS EMPTY' : 'KERANJANG KOSONG'}
         </h2>
@@ -41,7 +41,9 @@ export default function CartPage() {
             {items.map((item) => (
               <div key={item.product.id} style={{ background: 'var(--bg3)', border: '1px solid var(--border)', display: 'flex', gap: '16px', padding: '16px' }}>
                 <div style={{ width: '80px', height: '80px', background: 'var(--bg4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '36px', flexShrink: 0, border: '1px solid var(--border)' }}>
-                  {item.product.image.startsWith('data:') || item.product.image.startsWith('http') ? <img src={item.product.image} alt={item.product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span>{item.product.image}</span>}
+                  {item.product.image.startsWith('data:') || item.product.image.startsWith('http') ? (
+                    <img src={item.product.image} alt={item.product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : <span>{item.product.image}</span>}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '9px', letterSpacing: '2px', color: 'var(--primary)', textTransform: 'uppercase', marginBottom: '4px' }}>{item.product.category}</div>
@@ -51,9 +53,9 @@ export default function CartPage() {
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', border: '1px solid var(--border2)' }}>
-                      <button onClick={() => updateQuantity(item.product.id, item.quantity - 1)} style={{ background: 'none', border: 'none', color: '#fff', width: '28px', height: '28px', cursor: 'pointer', fontSize: '16px' }}>\u2212</button>
-                      <span style={{ padding: '0 10px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px' }}>{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)} style={{ background: 'none', border: 'none', color: '#fff', width: '28px', height: '28px', cursor: 'pointer', fontSize: '16px' }}>+</button>
+                      <button onClick={() => updateQuantity(item.product.id, item.quantity - 1)} style={{ background: 'none', border: 'none', color: '#fff', width: '32px', height: '32px', cursor: 'pointer', fontSize: '20px', lineHeight: 1 }}>−</button>
+                      <span style={{ padding: '0 12px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '14px', minWidth: '32px', textAlign: 'center' }}>{item.quantity}</span>
+                      <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)} style={{ background: 'none', border: 'none', color: '#fff', width: '32px', height: '32px', cursor: 'pointer', fontSize: '20px', lineHeight: 1 }}>+</button>
                     </div>
                     <button onClick={() => removeItem(item.product.id)} style={{ background: 'none', border: 'none', color: 'var(--muted)', cursor: 'pointer', fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', letterSpacing: '1px', textTransform: 'uppercase' }}>REMOVE</button>
                   </div>
@@ -75,12 +77,15 @@ export default function CartPage() {
               <span>TOTAL</span>
               <span style={{ color: 'var(--primary)' }}>{currency === 'IDR' ? formatRupiah(total) : formatUSD(total)}</span>
             </div>
+            <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', color: 'var(--muted)', marginBottom: '20px', lineHeight: '1.6' }}>
+              Shipping calculated at checkout. International shipping available.
+            </p>
             <button onClick={() => navigate('/checkout')}
               style={{ background: 'var(--primary)', color: '#fff', border: 'none', padding: '14px', width: '100%', fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px', letterSpacing: '2px', textTransform: 'uppercase', cursor: 'pointer', marginBottom: '12px' }}>
               {language === 'en' ? 'PROCEED TO CHECKOUT' : 'LANJUT CHECKOUT'}
             </button>
             <Link to="/shop" style={{ display: 'block', textAlign: 'center', fontFamily: 'Space Grotesk, sans-serif', fontSize: '12px', color: 'var(--muted)', textDecoration: 'none', letterSpacing: '1px' }}>
-              \u2190 {language === 'en' ? 'CONTINUE SHOPPING' : 'LANJUT BELANJA'}
+              ← {language === 'en' ? 'CONTINUE SHOPPING' : 'LANJUT BELANJA'}
             </Link>
           </div>
         </div>
