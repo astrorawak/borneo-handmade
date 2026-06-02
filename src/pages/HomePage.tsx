@@ -80,7 +80,7 @@ export default function HomePage() {
               <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '10px', letterSpacing: '5px', color: 'var(--primary)', marginBottom: '6px' }}>{t.featured}</div>
               <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '40px', letterSpacing: '2px' }}>{t.collection}</h2>
             </div>
-            <Link to="/shop" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', letterSpacing: '2px', color: 'var(--primary)', textDecoration: 'none', border: '1px solid var(--primary)', padding: '8px 20px', whiteSpace: 'nowrap' }}>{t.viewAll} \u2192</Link>
+            <Link to="/shop" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', letterSpacing: '2px', color: 'var(--primary)', textDecoration: 'none', border: '1px solid var(--primary)', padding: '8px 20px', whiteSpace: 'nowrap' }}>{t.viewAll} →</Link>
           </div>
           <div style={{ background: 'var(--border)' }}>
             <div className="product-grid">
@@ -123,10 +123,10 @@ export default function HomePage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1px', background: 'var(--border)' }}>
             {[
-              { icon: '\u270b', title: '100% HANDMADE', desc: 'Every piece crafted entirely by hand using traditional techniques passed down through generations.' },
-              { icon: '\ud83c\udf3f', title: 'AUTHENTIC ORIGIN', desc: 'Sourced directly from indigenous artisans across Borneo. Verified authentic, never replicated.' },
-              { icon: '\ud83d\udce6', title: 'WORLDWIDE SHIPPING', desc: 'Careful packaging with full insurance. We ship to 50+ countries with tracking.' },
-              { icon: '\ud83e\udd1d', title: 'DIRECT FROM MAKER', desc: 'We work directly with artisans, ensuring fair payment and preserving cultural heritage.' },
+              { icon: '✋', title: '100% HANDMADE', desc: 'Every piece crafted entirely by hand using traditional techniques passed down through generations.' },
+              { icon: '🌿', title: 'AUTHENTIC ORIGIN', desc: 'Sourced directly from indigenous artisans across Borneo. Verified authentic, never replicated.' },
+              { icon: '📦', title: 'WORLDWIDE SHIPPING', desc: 'Careful packaging with full insurance. We ship to 50+ countries with tracking.' },
+              { icon: '🤝', title: 'DIRECT FROM MAKER', desc: 'We work directly with artisans, ensuring fair payment and preserving cultural heritage.' },
             ].map((item) => (
               <div key={item.title} style={{ background: 'var(--bg2)', padding: '32px 24px', textAlign: 'center' }}>
                 <div style={{ fontSize: '36px', marginBottom: '16px' }}>{item.icon}</div>
@@ -147,7 +147,7 @@ export default function HomePage() {
                 <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '10px', letterSpacing: '5px', color: 'var(--primary)', marginBottom: '6px' }}>{t.latestBlog}</div>
                 <h2 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '40px', letterSpacing: '2px' }}>STORIES</h2>
               </div>
-              <Link to="/blog" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', letterSpacing: '2px', color: 'var(--primary)', textDecoration: 'none', border: '1px solid var(--primary)', padding: '8px 20px', whiteSpace: 'nowrap' }}>{t.viewAll} \u2192</Link>
+              <Link to="/blog" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', letterSpacing: '2px', color: 'var(--primary)', textDecoration: 'none', border: '1px solid var(--primary)', padding: '8px 20px', whiteSpace: 'nowrap' }}>{t.viewAll} →</Link>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1px', background: 'var(--border)' }}>
               {recentBlogs.map((post) => (
@@ -161,7 +161,7 @@ export default function HomePage() {
                       <h3 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '20px', color: '#fff', letterSpacing: '1px', marginBottom: '8px', lineHeight: '1.2' }}>{post.title}</h3>
                     </Link>
                     <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px', color: 'var(--muted)', lineHeight: '1.6', marginBottom: '16px' }}>{post.excerpt.slice(0, 100)}...</p>
-                    <Link to={`/blog/${post.slug}`} style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', letterSpacing: '1px', color: 'var(--primary)', textDecoration: 'none', textTransform: 'uppercase' }}>{t.readMore} \u2192</Link>
+                    <Link to={`/blog/${post.slug}`} style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', letterSpacing: '1px', color: 'var(--primary)', textDecoration: 'none', textTransform: 'uppercase' }}>{t.readMore} →</Link>
                   </div>
                 </div>
               ))}
