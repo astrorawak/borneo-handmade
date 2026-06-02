@@ -64,7 +64,7 @@ export default function ShopPage() {
         </div>
         {filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '80px 0', color: 'var(--muted)' }}>
-            <div style={{ fontSize: '48px', marginBottom: '16px' }}>\ud83d\udd0d</div>
+            <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔍</div>
             <p style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '24px', letterSpacing: '2px' }}>NO PIECES FOUND</p>
           </div>
         ) : (
@@ -90,7 +90,7 @@ export default function ShopPage() {
                       </div>
                       <button onClick={() => handleAdd(p)}
                         style={{ background: added === p.id ? 'var(--primary)' : 'transparent', border: '1px solid ' + (added === p.id ? 'var(--primary)' : 'var(--border2)'), color: added === p.id ? '#fff' : 'var(--muted)', padding: '7px 14px', fontSize: '10px', fontFamily: 'Space Grotesk, sans-serif', letterSpacing: '1px', textTransform: 'uppercase', cursor: 'pointer', transition: 'all 0.2s', whiteSpace: 'nowrap' }}>
-                        {added === p.id ? '\u2713' : '+ ADD'}
+                        {added === p.id ? '✓' : '+ ADD'}
                       </button>
                     </div>
                   </div>
