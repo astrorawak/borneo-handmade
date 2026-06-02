@@ -12,7 +12,7 @@ export default function OrderSuccessPage() {
   return (
     <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 16px' }}>
       <div style={{ maxWidth: '560px', width: '100%', textAlign: 'center' }}>
-        <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '80px', color: 'var(--primary)', lineHeight: 1, marginBottom: '16px' }}>\u2713</div>
+        <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '80px', color: 'var(--primary)', lineHeight: 1, marginBottom: '16px' }}>✓</div>
         <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '10px', letterSpacing: '5px', color: 'var(--primary)', marginBottom: '12px' }}>ORDER PLACED</div>
         <h1 style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '48px', letterSpacing: '2px', marginBottom: '12px' }}>THANK YOU!</h1>
         <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px', marginBottom: '28px' }}>
@@ -44,7 +44,7 @@ export default function OrderSuccessPage() {
           CONFIRM VIA WHATSAPP
         </a>
         <Link to="/" style={{ display: 'block', fontFamily: 'Space Grotesk, sans-serif', fontSize: '12px', color: 'var(--muted)', textDecoration: 'none', letterSpacing: '1px', padding: '12px' }}>
-          \u2190 BACK TO HOME
+          ← BACK TO HOME
         </Link>
       </div>
     </div>
