@@ -563,27 +563,26 @@ export function AdminSettings() {
           {field('Store Email', 'storeEmail')}
           {field('WhatsApp Number', 'whatsapp', 'e.g. 082358402290')}
         </div>
-
         <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
             <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '18px', letterSpacing: '2px', color: 'var(--primary)' }}>SHIPPING METHODS</div>
-            <button onClick={openAddShipping} style={{ background: 'var(--primary)', color: '#fff', border: 'none', padding: '8px 16px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', letterSpacing: '1px', cursor: 'pointer', textTransform: 'uppercase' }}>+ ADD METHOD</button>
+            <button onClick={openAddShipping} style={{ background: 'var(--primary)', color: '#fff', border: 'none', padding: '8px 16px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', letterSpacing: '1px', cursor: 'pointer', textTransform: 'uppercase' }}>+ ADD</button>
           </div>
-          <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '12px', color: 'var(--muted)', marginBottom: '16px', lineHeight: '1.5' }}>
-            Manage shipping carriers shown at checkout. Enable/disable, edit prices, or add new carriers like DHL, FedEx, EMS.
+          <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '12px', color: 'var(--muted)', marginBottom: '12px', lineHeight: '1.5' }}>
+            Configure carriers shown at checkout. Enable/disable, set prices, add DHL, FedEx, EMS, JNE etc.
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {(form.shippingOptions || []).map((s) => (
               <div key={s.id} style={{ background: 'var(--bg4)', border: '1px solid var(--border)', borderRadius: '4px', padding: '10px 12px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px', fontWeight: 600, color: s.isActive ? '#fff' : 'var(--muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.label}</div>
+                    <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px', fontWeight: 600, color: s.isActive ? '#fff' : 'var(--muted)' }}>{s.label}</div>
                     <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '11px', color: 'var(--muted)', marginTop: '2px' }}>
-                      Est. {s.estimatedDays} | Rp {s.costIDR.toLocaleString('id-ID')} / ${s.costUSD}
+                      {s.estimatedDays} | Rp {s.costIDR.toLocaleString('id-ID')} / ${s.costUSD}
                     </div>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flexShrink: 0, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-                    <button onClick={() => toggleShipping(s.id)} style={{ background: s.isActive ? 'rgba(74,222,128,0.15)' : 'var(--bg3)', border: '1px solid ' + (s.isActive ? '#4ade80' : 'var(--border2)'), color: s.isActive ? '#4ade80' : 'var(--muted)', padding: '4px 8px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '10px', cursor: 'pointer', letterSpacing: '1px', whiteSpace: 'nowrap' }}>
+                  <div style={{ display: 'flex', gap: '4px', flexShrink: 0 }}>
+                    <button onClick={() => toggleShipping(s.id)} style={{ background: s.isActive ? 'rgba(74,222,128,0.15)' : 'var(--bg3)', border: '1px solid ' + (s.isActive ? '#4ade80' : 'var(--border2)'), color: s.isActive ? '#4ade80' : 'var(--muted)', padding: '4px 8px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '10px', cursor: 'pointer' }}>
                       {s.isActive ? 'ON' : 'OFF'}
                     </button>
                     <button onClick={() => openEditShipping(s)} style={{ background: 'var(--bg3)', border: '1px solid var(--border2)', color: 'var(--text2)', padding: '4px 8px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '10px', cursor: 'pointer' }}>EDIT</button>
@@ -594,7 +593,6 @@ export function AdminSettings() {
             ))}
           </div>
         </div>
-
         <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px' }}>
           <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '18px', letterSpacing: '2px', color: 'var(--primary)', marginBottom: '16px' }}>PAYMENT METHODS</div>
           {field('Bank Name', 'bankName', 'e.g. BRI')}
@@ -606,7 +604,6 @@ export function AdminSettings() {
           {field('Western Union Name', 'westernUnionName')}
           {field('Western Union Country', 'westernUnionCountry')}
         </div>
-
         <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px' }}>
           <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '18px', letterSpacing: '2px', color: 'var(--primary)', marginBottom: '16px' }}>SOCIAL MEDIA</div>
           {field('Instagram Username', 'instagram', 'e.g. borneohandmade')}
@@ -614,7 +611,6 @@ export function AdminSettings() {
           {field('Facebook Page', 'facebook')}
           {field('YouTube Channel', 'youtube')}
         </div>
-
         <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px' }}>
           <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '18px', letterSpacing: '2px', color: 'var(--primary)', marginBottom: '16px' }}>ANNOUNCEMENT BAR</div>
           {field('Announcement Text', 'announcementText')}
@@ -623,18 +619,15 @@ export function AdminSettings() {
             <label htmlFor="annActive" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px', color: 'var(--text2)', cursor: 'pointer' }}>Show announcement bar</label>
           </div>
         </div>
-
         <div style={{ background: 'var(--bg3)', border: '1px solid var(--border)', padding: '20px' }}>
           <div style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '18px', letterSpacing: '2px', color: 'var(--primary)', marginBottom: '16px' }}>SHIPPING NOTE</div>
           <label style={lbl}>Info text (shown on Shipping page)</label>
           <textarea style={{ ...inp, minHeight: '80px', resize: 'vertical' }} value={form.shippingNote} onChange={(e) => setForm({ ...form, shippingNote: e.target.value })} />
         </div>
       </div>
-
       <button onClick={handleSave} style={{ marginTop: '24px', background: 'var(--primary)', color: '#fff', border: 'none', padding: '16px 40px', fontFamily: 'Space Grotesk, sans-serif', fontSize: '14px', letterSpacing: '2px', textTransform: 'uppercase', cursor: 'pointer', fontWeight: 700, width: '100%' }}>
-        💾 SAVE ALL SETTINGS
+        SAVE ALL SETTINGS
       </button>
-
       {shippingModal && (
         <Modal onClose={() => setShippingModal(false)} title={editingShipping ? 'EDIT SHIPPING' : 'ADD SHIPPING METHOD'}>
           <label style={lbl}>Carrier / Label *</label>
@@ -644,15 +637,11 @@ export function AdminSettings() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div>
               <label style={lbl}>Cost IDR (Rp)</label>
-              <input style={inp} type="text" inputMode="numeric" value={shippingForm.costIDR === 0 ? '' : String(shippingForm.costIDR)}
-                onChange={(e) => { const v = e.target.value.replace(/\D/g, ''); setShippingForm({ ...shippingForm, costIDR: v ? parseInt(v) : 0 }); }}
-                placeholder="e.g. 35000" />
+              <input style={inp} type="text" inputMode="numeric" value={shippingForm.costIDR === 0 ? '' : String(shippingForm.costIDR)} onChange={(e) => { const v = e.target.value.replace(/\D/g, ''); setShippingForm({ ...shippingForm, costIDR: v ? parseInt(v) : 0 }); }} placeholder="e.g. 35000" />
             </div>
             <div>
               <label style={lbl}>Cost USD ($)</label>
-              <input style={inp} type="text" inputMode="decimal" value={shippingForm.costUSD === 0 ? '' : String(shippingForm.costUSD)}
-                onChange={(e) => { const v = e.target.value.replace(/[^\d.]/g, ''); setShippingForm({ ...shippingForm, costUSD: v ? parseFloat(v) : 0 }); }}
-                placeholder="e.g. 25" />
+              <input style={inp} type="text" inputMode="decimal" value={shippingForm.costUSD === 0 ? '' : String(shippingForm.costUSD)} onChange={(e) => { const v = e.target.value.replace(/[^\d.]/g, ''); setShippingForm({ ...shippingForm, costUSD: v ? parseFloat(v) : 0 }); }} placeholder="e.g. 25" />
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
