@@ -453,7 +453,7 @@ export function AdminCategories() {
 export function AdminSettings() {
   const { settings, updateSettings } = useAdminStore();
   const { toasts, show: toast, remove } = useToast();
-  const [form, setForm] = useState<StoreSettings>({ ...settings });
+  const [form, setForm] = useState<StoreSettings>({ ...settings, shippingOptions: settings.shippingOptions || [] });
   const [shippingModal, setShippingModal] = useState(false);
   const [editingShipping, setEditingShipping] = useState<ShippingOption | null>(null);
   const emptyShipping: ShippingOption = { id: '', label: '', estimatedDays: '', costIDR: 0, costUSD: 0, isActive: true };
